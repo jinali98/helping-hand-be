@@ -1,7 +1,8 @@
+import { AuthServiceInterface } from "../interfaces/auth.interface";
 import { hashSecretCognito } from "../utils/hash.util";
 import { CognitoService } from "./cognito.service";
 
-export class AuthService {
+export class AuthService implements AuthServiceInterface {
   private userPoolId = process.env.COGNITO_USER_POOL_ID;
   private clientId = process.env.COGNITO_CLIENT_ID;
   private clientSecret = process.env.COGNITO_CLIENT_SECRET;

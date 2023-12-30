@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "../services/auth.service";
 import User from "../models/user.model";
+import { AuthControllerInterface } from "../interfaces/auth.interface";
 
 const authentication = new AuthService();
 
-export class AuthController {
+export class AuthController implements AuthControllerInterface {
   login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
@@ -91,20 +92,6 @@ export class AuthController {
 
       await authentication.confirmSignUp(email.trim(), code);
 
-      res.status(200).json({
-        status: "success",
-        data: {},
-      });
-    } catch (err) {
-      next(err);
-    }
-  };
-  refreshRegstration = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
       res.status(200).json({
         status: "success",
         data: {},

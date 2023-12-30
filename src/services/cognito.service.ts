@@ -1,7 +1,6 @@
 import {
   CognitoIdentityProviderClient,
   SignUpCommand,
-  AdminInitiateAuthCommand,
   ForgotPasswordCommand,
   ConfirmForgotPasswordCommand,
   ConfirmSignUpCommand,
