@@ -33,6 +33,62 @@
           }
         }
       }
+    },
+    "/auth/volunteerRegistration": {
+      "post": {
+        "summary": "Volunteer registration",
+        "description": "Registers a volunteer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/volunteerRegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful registration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/confirmRegistration": {
+      "post": {
+        "summary": "Confirm Registration",
+        "description": "confirm the registered email address",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmRegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Account confirmation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmRegistrationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -52,6 +108,58 @@
         "type": "object",
         "properties": {
           "token": {
+            "type": "string"
+          }
+        }
+      },
+      "volunteerRegistrationRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "password", "address", "country", "phone", "name"]
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmRegistrationRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "code"]
+      },
+      "ConfirmRegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
             "type": "string"
           }
         }

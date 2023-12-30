@@ -1,8 +1,47 @@
 import { Request, Response, NextFunction, Router } from "express";
-const authRouter = Router();
 
-authRouter.post("/login", (req: Request, res: Response, next: NextFunction) => {
-  res.send("Hello, World!");
-});
+import { AuthController } from "../controllers/auth.controller";
+import { AuthValidator } from "../middleware/auth-validator.middleware";
+
+const authRouter = Router();
+const authController = new AuthController();
+const authValidator = new AuthValidator();
+
+authRouter.post(
+  "/login",
+  authValidator.login,
+  async (req: Request, res: Response, next: NextFunction) => {
+    authController.login(req, res, next);
+  }
+);
+
+authRouter.post(
+  "/volunteerRegistration",
+  authValidator.volunterRegistration,
+  async (req: Request, res: Response, next: NextFunction) => {
+    authController.volunteerRegistration(req, res, next);
+  }
+);
+
+authRouter.post(
+  "/organizationRegistration",
+  authValidator.organizationRegistration,
+  async (req: Request, res: Response, next: NextFunction) => {
+    authController.organizationRegstration(req, res, next);
+  }
+);
+
+authRouter.post(
+  "/confirmRegistration",
+  authValidator.confirmSignUp,
+  async (req: Request, res: Response, next: NextFunction) => {
+    authController.confirmSignup(req, res, next);
+  }
+);
+
+authRouter.post(
+  "/refreshToken",
+  async (req: Request, res: Response, next: NextFunction) => {}
+);
 
 export default authRouter;
