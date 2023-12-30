@@ -1,3 +1,8 @@
+import {
+  confirmSignUpCognitoInput,
+  initiateAuthCognitoInput,
+  signUpCognitoInput,
+} from "../interfaces/types";
 import { AuthServiceInterface } from "../interfaces/auth.interface";
 import { hashSecretCognito } from "../utils/hash.util";
 import { CognitoService } from "./cognito.service";
@@ -11,7 +16,7 @@ export class AuthService implements AuthServiceInterface {
 
   async userRegistration(email: string, password: string) {
     try {
-      const input = {
+      const input: signUpCognitoInput = {
         ClientId: this.clientId,
         SecretHash: hashSecretCognito(email),
         Username: email,
@@ -32,7 +37,7 @@ export class AuthService implements AuthServiceInterface {
 
   async confirmSignUp(email: string, code: string) {
     try {
-      const input = {
+      const input: confirmSignUpCognitoInput = {
         ClientId: this.clientId,
         ConfirmationCode: code.trim(),
         SecretHash: hashSecretCognito(email),
@@ -46,7 +51,7 @@ export class AuthService implements AuthServiceInterface {
   }
   async login(email: string, password: string) {
     try {
-      const input = {
+      const input: initiateAuthCognitoInput = {
         AuthFlow: "USER_PASSWORD_AUTH",
         ClientId: this.clientId,
         AuthParameters: {
