@@ -1,15 +1,20 @@
 import {
   CognitoIdentityProviderClient,
   SignUpCommand,
-  AdminInitiateAuthCommand,
   ForgotPasswordCommand,
   ConfirmForgotPasswordCommand,
   ConfirmSignUpCommand,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { CustomError } from "./exception.service";
+import { CognitoServiceInterface } from "../interfaces/cognito.interface";
+import {
+  confirmSignUpCognitoInput,
+  initiateAuthCognitoInput,
+  signUpCognitoInput,
+} from "../interfaces/types";
 
-export class CognitoService {
+export class CognitoService implements CognitoServiceInterface {
   cognitoClient: CognitoIdentityProviderClient;
 
   constructor() {
@@ -18,7 +23,7 @@ export class CognitoService {
     });
   }
 
-  async confirmSignUp(input) {
+  async confirmSignUp(input: confirmSignUpCognitoInput) {
     try {
       const authChallenge = new ConfirmSignUpCommand(input);
       const response = await this.cognitoClient.send(authChallenge);
@@ -30,7 +35,7 @@ export class CognitoService {
     }
   }
 
-  async initiateAuth(input) {
+  async initiateAuth(input: initiateAuthCognitoInput) {
     try {
       const initAuth = new InitiateAuthCommand(input);
       const response = await this.cognitoClient.send(initAuth);
@@ -46,7 +51,7 @@ export class CognitoService {
     }
   }
 
-  async signUp(input) {
+  async signUp(input: signUpCognitoInput) {
     try {
       const createUser = new SignUpCommand(input);
       const response = await this.cognitoClient.send(createUser);
