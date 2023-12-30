@@ -1,8 +1,9 @@
 import Joi from "joi";
+import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../services/exception.service";
 
 export class AuthValidator {
-  volunterRegistration(req, res, next) {
+  volunterRegistration(req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
@@ -18,7 +19,7 @@ export class AuthValidator {
     }
     next();
   }
-  organizationRegistration(req, res, next) {
+  organizationRegistration(req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
@@ -34,7 +35,7 @@ export class AuthValidator {
     }
     next();
   }
-  confirmSignUp(req, res, next) {
+  confirmSignUp(req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       code: Joi.string().required(),
@@ -46,7 +47,7 @@ export class AuthValidator {
     }
     next();
   }
-  login(req, res, next) {
+  login(req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
