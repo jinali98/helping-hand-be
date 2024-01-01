@@ -29,13 +29,6 @@ Access the documentation at http://localhost:3000/api-docs after starting the ap
 
 1. Configure environment variables:
 
-Create a .env file in the project root and set the necessary variables
+Utilize the provided .env.example as a template for creating your own .env file. Customize the values in the file according to your specific configurations, replacing the placeholders.
 
-PORT=3000
-MONGO_URL=mongodb-url
-MONGO_PASSWORD=mongodb-password
-MONGO_USERNAME=mongodb-username
-AWS_REGION=aws-region
-COGNITO_USER_POOL_ID=cognito-user-pool-id
-COGNITO_CLIENT_ID=cognito-client-id
-COGNITO_CLIENT_SECRET=cognito-client-secret
+Note: Ensure to remove the .example extension from the file name.
