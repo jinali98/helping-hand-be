@@ -40,4 +40,10 @@ export interface AuthControllerInterface {
     res: Response,
     next: NextFunction
   ): Promise<void | NextFunction>;
+
+  resendConfirmationCode(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void | NextFunction>;
 }

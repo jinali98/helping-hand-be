@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 export class CustomError extends Error {
-  constructor(public code: number, message: string) {
+  constructor(public code: number, message: string, public status?: string) {
     super(message);
   }
 }
@@ -14,7 +14,7 @@ export const globalErrorHandler = (
 ) => {
   console.log(err);
   err.statusCode = err.code || 500;
-  err.status = "error";
+  err.status = err.status || "error";
 
   res.status(err.statusCode).json({
     status: err.status,

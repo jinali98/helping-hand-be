@@ -59,4 +59,15 @@ export class AuthValidator {
     }
     next();
   }
+  resendConfirmationCode(req: Request, res: Response, next: NextFunction) {
+    const schema = Joi.object({
+      email: Joi.string().email().required(),
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return next(new CustomError(400, error.details[0].message));
+    }
+    next();
+  }
 }

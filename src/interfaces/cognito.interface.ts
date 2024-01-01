@@ -1,11 +1,15 @@
 import {
   confirmSignUpCognitoInput,
   initiateAuthCognitoInput,
+  resendConfirmationCodeInput,
   signUpCognitoInput,
 } from "./types";
 
 export interface CognitoServiceInterface {
   confirmSignUp(input: confirmSignUpCognitoInput): Promise<any | Error>;
+  resendConfirmationCode(
+    input: resendConfirmationCodeInput
+  ): Promise<any | Error>;
   initiateAuth(input: initiateAuthCognitoInput): Promise<
     | {
         accessToken: string;

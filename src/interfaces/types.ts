@@ -1,11 +1,15 @@
-
-
 export type confirmSignUpCognitoInput = {
   ClientId: string;
   ConfirmationCode: string;
   SecretHash: string;
   Username: string;
 };
+export type resendConfirmationCodeInput = {
+  ClientId: string;
+  SecretHash: string;
+  Username: string;
+};
+
 export type signUpCognitoInput = {
   ClientId: string;
   SecretHash: string;

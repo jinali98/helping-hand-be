@@ -5,12 +5,14 @@ import {
   ConfirmForgotPasswordCommand,
   ConfirmSignUpCommand,
   InitiateAuthCommand,
+  ResendConfirmationCodeCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { CustomError } from "./exception.service";
 import { CognitoServiceInterface } from "../interfaces/cognito.interface";
 import {
   confirmSignUpCognitoInput,
   initiateAuthCognitoInput,
+  resendConfirmationCodeInput,
   signUpCognitoInput,
 } from "../interfaces/types";
 
@@ -30,8 +32,25 @@ export class CognitoService implements CognitoServiceInterface {
 
       return response;
     } catch (err) {
-      console.error(err);
-      throw new CustomError(err.$metadata.httpStatusCode, err.message);
+      throw new CustomError(
+        err.$metadata.httpStatusCode,
+        err.message,
+        err.__type
+      );
+    }
+  }
+  async resendConfirmationCode(input: resendConfirmationCodeInput) {
+    try {
+      const authChallenge = new ResendConfirmationCodeCommand(input);
+      const response = await this.cognitoClient.send(authChallenge);
+
+      return response;
+    } catch (err) {
+      throw new CustomError(
+        err.$metadata.httpStatusCode,
+        err.message,
+        err.__type
+      );
     }
   }
 
@@ -46,8 +65,11 @@ export class CognitoService implements CognitoServiceInterface {
         idToken: response.AuthenticationResult.IdToken,
       };
     } catch (err) {
-      console.error(err);
-      throw new CustomError(err.$metadata.httpStatusCode, err.message);
+      throw new CustomError(
+        err.$metadata.httpStatusCode,
+        err.message,
+        err.__type
+      );
     }
   }
 
@@ -62,7 +84,11 @@ export class CognitoService implements CognitoServiceInterface {
         };
       }
     } catch (err) {
-      throw new CustomError(err.$metadata.httpStatusCode, err.message);
+      throw new CustomError(
+        err.$metadata.httpStatusCode,
+        err.message,
+        err.__type
+      );
     }
   }
 
@@ -72,7 +98,11 @@ export class CognitoService implements CognitoServiceInterface {
       const response = await this.cognitoClient.send(codeRequest);
       return response;
     } catch (err) {
-      throw new CustomError(err.$metadata.httpStatusCode, err.message);
+      throw new CustomError(
+        err.$metadata.httpStatusCode,
+        err.message,
+        err.__type
+      );
     }
   }
 
@@ -82,8 +112,11 @@ export class CognitoService implements CognitoServiceInterface {
       const response = await this.cognitoClient.send(codeRequest);
       return response;
     } catch (err) {
-      console.error(err);
-      throw new CustomError(err.$metadata.httpStatusCode, err.message);
+      throw new CustomError(
+        err.$metadata.httpStatusCode,
+        err.message,
+        err.__type
+      );
     }
   }
 }
