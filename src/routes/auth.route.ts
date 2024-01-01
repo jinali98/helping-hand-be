@@ -38,6 +38,13 @@ authRouter.post(
     authController.confirmSignup(req, res, next);
   }
 );
+authRouter.post(
+  "/resendConfirmationCode",
+  authValidator.resendConfirmationCode,
+  async (req: Request, res: Response, next: NextFunction) => {
+    authController.resendConfirmationCode(req, res, next);
+  }
+);
 
 authRouter.post(
   "/refreshToken",

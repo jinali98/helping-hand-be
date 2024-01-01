@@ -49,6 +49,19 @@ export class AuthService implements AuthServiceInterface {
       throw err;
     }
   }
+  async resendConfirmationCode(email: string) {
+    try {
+      const input = {
+        ClientId: this.clientId,
+        SecretHash: hashSecretCognito(email),
+        Username: email,
+      };
+
+      return await this.cognito.resendConfirmationCode(input);
+    } catch (err) {
+      throw err;
+    }
+  }
   async login(email: string, password: string) {
     try {
       const input: initiateAuthCognitoInput = {

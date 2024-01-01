@@ -7,17 +7,24 @@ const authentication = new AuthService();
 
 export class AuthController implements AuthControllerInterface {
   login = async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
-
-    const response = await authentication.login(email.trim(), password.trim());
-
     try {
+      const { email, password } = req.body;
+
+      const { accessToken, refreshToken, idToken } = await authentication.login(
+        email.trim(),
+        password.trim()
+      );
+
       res.status(200).json({
         status: "success",
-        data: response,
+        data: {
+          accessToken,
+          refreshToken,
+          idToken,
+        },
       });
     } catch (err) {
-      next(err);
+      return next(err);
     }
   };
   volunteerRegistration = async (
@@ -97,7 +104,25 @@ export class AuthController implements AuthControllerInterface {
         data: {},
       });
     } catch (err) {
-      next(err);
+      return next(err);
+    }
+  };
+  resendConfirmationCode = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { email } = req.body;
+
+      await authentication.resendConfirmationCode(email.trim());
+
+      res.status(200).json({
+        status: "success",
+        data: {},
+      });
+    } catch (err) {
+      return next(err);
     }
   };
 }
