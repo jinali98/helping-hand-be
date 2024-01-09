@@ -1,4 +1,4 @@
-require("dotenv/config");
+require("dotenv").config({ path: "./config/.env.dev" });
 import express from "express";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
@@ -49,3 +49,5 @@ mongoose
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
+
+export default app;

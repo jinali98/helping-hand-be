@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  userId: {
+const organizationSchema = new mongoose.Schema({
+  org_id: {
     type: String,
     required: true,
   },
@@ -9,12 +9,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  userType: {
-    type: String,
-    required: true,
-    enum: ["org", "vol"],
-    default: "vol",
   },
 
   address: {
@@ -29,39 +23,30 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Volunteer fields
-  volName: {
-    type: String,
-    required: function () {
-      return this.userType === "vol";
-    },
-  },
 
-  // Organization fields
-  orgName: {
+  name: {
     type: String,
-    required: function () {
-      return this.userType === "org";
-    },
+    required: true,
   },
-  orgWebsite: {
-    type: String,
-    required: false,
-  },
-  orgDescription: {
+  website: {
     type: String,
     required: false,
   },
 
-  orgCategory: {
+  description: {
     type: String,
     required: false,
   },
-  orgLogo: {
+
+  category: {
     type: String,
     required: false,
   },
-  orgFacebook: {
+  logo: {
+    type: String,
+    required: false,
+  },
+  facebook: {
     type: String,
     required: false,
   },
@@ -69,12 +54,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  orgTwitter: {
+  twitter: {
     type: String,
     required: false,
   },
 });
 
-const User = mongoose.model("User", userSchema);
+const Organization = mongoose.model("Organization", organizationSchema);
 
-export default User;
+export default Organization;

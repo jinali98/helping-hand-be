@@ -1,3 +1,12 @@
+export enum STATUS {
+  PENDING = "pending",
+  ACCEPTED = "accepted",
+  REJECTED = "rejected",
+  OPEN = "open",
+  CLOSED = "closed",
+  DRAFT = "draft",
+}
+
 export enum STATUS_MESSAGE {
   SUCCESS = "Success",
   ERROR = "Error",

@@ -16,7 +16,7 @@ authRouter.post(
 );
 
 authRouter.post(
-  "/volunteerRegistration",
+  "/volunteer",
   authValidator.volunterRegistration,
   async (req: Request, res: Response, next: NextFunction) => {
     authController.volunteerRegistration(req, res, next);
@@ -24,7 +24,7 @@ authRouter.post(
 );
 
 authRouter.post(
-  "/organizationRegistration",
+  "/organization",
   authValidator.organizationRegistration,
   async (req: Request, res: Response, next: NextFunction) => {
     authController.organizationRegstration(req, res, next);

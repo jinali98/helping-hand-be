@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "../services/auth.service";
-import User from "../models/user.model";
 import { AuthControllerInterface } from "../interfaces/auth.interface";
+import Organization from "../models/organization.model";
+import Volunteer from "../models/volunteer.model";
 
 const authentication = new AuthService();
 
@@ -40,13 +41,12 @@ export class AuthController implements AuthControllerInterface {
         password.trim()
       );
 
-      const volunteer = new User({
-        userId: userid,
+      const volunteer = new Volunteer({
+        vol_id: userid,
         email: email.trim(),
         address,
         country,
-        phone,
-        volName: name,
+        name: name,
       });
 
       await volunteer.save();
@@ -73,14 +73,13 @@ export class AuthController implements AuthControllerInterface {
         password.trim()
       );
 
-      const organization = new User({
-        userId: userid,
+      const organization = new Organization({
+        org_id: userid,
         email: email.trim(),
         address,
         country,
         phone,
-        userType: "org",
-        orgName: organizationName,
+        name: organizationName,
       });
 
       await organization.save();
