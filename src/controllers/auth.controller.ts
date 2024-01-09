@@ -34,7 +34,7 @@ export class AuthController implements AuthControllerInterface {
     next: NextFunction
   ) => {
     try {
-      const { email, password, address, country, phone, name } = req.body;
+      const { email, password, address, country, name } = req.body;
 
       const { userid } = await authentication.userRegistration(
         email.trim(),

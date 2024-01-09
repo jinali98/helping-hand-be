@@ -9,7 +9,6 @@ export class AuthValidator {
       password: Joi.string().required(),
       address: Joi.string().required(),
       country: Joi.string().required(),
-      phone: Joi.string().required(),
       name: Joi.string().required(),
     });
 
