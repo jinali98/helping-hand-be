@@ -1239,6 +1239,3 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Volunteer"
-        application/xml:
-          schema:
-            $ref: "#/components/schemas/Volunteer"
