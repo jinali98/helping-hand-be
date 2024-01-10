@@ -50,7 +50,7 @@ const organizationSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  orgInstagram: {
+  instagram: {
     type: String,
     required: false,
   },

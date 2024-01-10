@@ -19,27 +19,27 @@ const contributionSchema = new mongoose.Schema({
 
   feedback: {
     type: String,
-    required: true,
+    required: false,
   },
 
   rating: {
     type: Number,
-    required: true,
+    required: false,
   },
 
   hours_spent: {
     type: Number,
-    required: true,
+    required: false,
   },
 
   recommended_by: {
     type: String,
-    required: true,
+    required: false,
   },
 
   recommended_person_designation: {
     type: String,
-    required: true,
+    required: false,
   },
 
   created_at: {

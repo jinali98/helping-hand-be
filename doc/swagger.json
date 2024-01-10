@@ -1,91 +1,1115 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.3",
   "info": {
-    "title": "Helping Hand API",
-    "version": "1.0.0",
-    "description": "API for the Helping Hand application"
+    "title": "Helping Hand - OpenAPI 3.0",
+    "description": "API Documentation for Helping Hand Portal",
+    "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Authentication API End Points"
+    },
+    {
+      "name": "organization",
+      "description": "Operations related to Organizations"
+    },
+    {
+      "name": "volunteers",
+      "description": "Operations related to Volunteers"
+    },
+    {
+      "name": "contributions",
+      "description": "Operations related to Contributions"
+    },
+    {
+      "name": "opportunities",
+      "description": "Operations related to Opportunites"
+    },
+    {
+      "name": "applications",
+      "description": "Operations related to Applications"
+    }
+  ],
   "paths": {
-    "/auth/login": {
+    "/auth/volunteer": {
       "post": {
-        "summary": "User login",
-        "description": "Logs in a user",
+        "tags": ["auth"],
+        "summary": "Register a new volunteer user",
+        "description": "Register a new volunteer user",
+        "operationId": "registerVolunteer",
         "requestBody": {
-          "required": true,
+          "description": "Register a new volunteer user in the portal",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/Volunteer"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful login",
+            "description": "Successful operation sends OTP code to the provided email id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "invalid request body"
           }
         }
       }
     },
-    "/auth/volunteerRegistration": {
+    "/auth/organization": {
       "post": {
-        "summary": "Volunteer registration",
-        "description": "Registers a volunteer",
+        "tags": ["auth"],
+        "summary": "Register a new organization",
+        "description": "Register a new organization",
+        "operationId": "registerOrganization",
         "requestBody": {
-          "required": true,
+          "description": "Register a new organization in the portal",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/volunteerRegistrationRequest"
+                "$ref": "#/components/schemas/Organization"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful registration",
+            "description": "Successful operation sends OTP code to the provided email id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "invalid request body"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "User Login to the portal",
+        "description": "User Login to the portal",
+        "operationId": "login",
+        "requestBody": {
+          "description": "User Login to the portal",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect username or password"
           }
         }
       }
     },
     "/auth/confirmRegistration": {
       "post": {
-        "summary": "Confirm Registration",
-        "description": "confirm the registered email address",
+        "tags": ["auth"],
+        "summary": "User verify the email id by providing the OTP",
+        "description": "User verify the email id by providing the OTP",
+        "operationId": "confirmRegistration",
         "requestBody": {
-          "required": true,
+          "description": "User provide OTP and email for the verification",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmRegistrationRequest"
+                "$ref": "#/components/schemas/OTP"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "cannot confirm user account"
+          }
+        }
+      }
+    },
+    "/auth/resendConfirmationCode": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "User request to re send the OTP",
+        "description": "User request to re send the OTP",
+        "operationId": "resendOTP",
+        "requestBody": {
+          "description": "User provide email to resend the OTP",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPResend"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body"
+          }
+        }
+      }
+    },
+    "/opportunities": {
+      "get": {
+        "tags": ["opportunities"],
+        "summary": "view list of opportunities",
+        "description": "view list of opportunities",
+        "operationId": "getOpportunities",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "filter out records by status",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "pending",
+              "enum": ["open", "closed"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["opportunities"],
+        "summary": "Organization create a new opportunity",
+        "description": "Organization create a new opportunity",
+        "operationId": "createOpportunity",
+        "requestBody": {
+          "description": "Organization create a new opportunity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Opportunity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body"
+          }
+        }
+      }
+    },
+    "/opportunities/{oppId}": {
+      "get": {
+        "tags": ["opportunities"],
+        "summary": "View an opportunity by id",
+        "description": "view an opportunity details by id",
+        "operationId": "viewOpportunity",
+        "parameters": [
+          {
+            "name": "oppId",
+            "in": "path",
+            "description": "ID of opportunity that need to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no record found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["opportunities"],
+        "summary": "Organization update an opportunity status by id",
+        "description": "Organization update an opportunity status by id",
+        "operationId": "updateOpportunityStatus",
+        "parameters": [
+          {
+            "name": "oppId",
+            "in": "path",
+            "description": "ID of opportunity that need to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Organization update status",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Status"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body"
+          }
+        }
+      }
+    },
+    "/opportunities/{oppId}/volunteers": {
+      "get": {
+        "tags": ["volunteers"],
+        "summary": "Get Volunteers by opportunity id",
+        "description": "Get list of Volunteers by opportunity id",
+        "operationId": "getVolunteersByOpportunity",
+        "parameters": [
+          {
+            "name": "oppId",
+            "in": "path",
+            "description": "ID of opportunity",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc458"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no record found"
+          }
+        }
+      }
+    },
+    "/opportunities/{oppId}/contributions": {
+      "get": {
+        "tags": ["contributions"],
+        "summary": "Get contributions by opportunity id",
+        "description": "view list of contributions for an opportunity by id",
+        "operationId": "getContributionsByOpportunity",
+        "parameters": [
+          {
+            "name": "oppId",
+            "in": "path",
+            "description": "ID of opportunity",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc458"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no record found"
+          }
+        }
+      }
+    },
+    "/opportunities/{oppId}/applications": {
+      "get": {
+        "tags": ["applications"],
+        "summary": "Get applications by opportunity id",
+        "description": "view list of apllications for an opportunity by id",
+        "operationId": "getApplicationsByOpportunity",
+        "parameters": [
+          {
+            "name": "oppId",
+            "in": "path",
+            "description": "ID of opportunity",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc458"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no record found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["applications"],
+        "summary": "apply for an opportunity",
+        "description": "volunteer apply for an opportunity",
+        "operationId": "createApplication",
+        "parameters": [
+          {
+            "name": "oppId",
+            "in": "path",
+            "description": "ID of opportunity",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc458"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "volunteer apply for an opprtunity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Application"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Successful Account confirmation",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConfirmRegistrationResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "invalid request body"
+          }
+        }
+      }
+    },
+    "/volunteers/{volId}": {
+      "get": {
+        "tags": ["volunteers"],
+        "summary": "Get volunteer profile data",
+        "description": "Get volunteer profile details if the profile is public. if the profile details requested by the user it will send all the details",
+        "operationId": "getVolunteerProfile",
+        "parameters": [
+          {
+            "name": "volId",
+            "in": "path",
+            "description": "volunteer id",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Volunteer"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no profile found"
+          }
+        }
+      }
+    },
+    "/volunteers/{volId}/contributions": {
+      "get": {
+        "tags": ["contributions"],
+        "summary": "Get contributions by volunteer id",
+        "description": "Get list of contributions by volunteer id",
+        "operationId": "getContributionsByVolunteer",
+        "parameters": [
+          {
+            "name": "volId",
+            "in": "path",
+            "description": "volunteer id",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Volunteer"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no profile found"
+          }
+        }
+      }
+    },
+    "/volunteers": {
+      "get": {
+        "tags": ["volunteers"],
+        "summary": "Get volunteers list",
+        "description": "Get a list of volunteers",
+        "operationId": "getVolunteerList",
+        "parameters": [
+          {
+            "name": "score",
+            "in": "query",
+            "description": "volunteer score",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "100"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Volunteer"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["volunteers"],
+        "summary": "update volunteer profile",
+        "description": "User update the volunteer profile details",
+        "operationId": "updateVolunteerProfile",
+        "requestBody": {
+          "description": "volunteer update the profile details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerProfile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Volunteer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/organizations/{orgId}/opportunities": {
+      "get": {
+        "tags": ["opportunities"],
+        "summary": "Get opportunities list",
+        "description": "Get a list of opportunities by organization id",
+        "operationId": "getOpportunitiesListByOrganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "organization id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiResponse"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      }
+    },
+    "/organizations/{orgId}": {
+      "get": {
+        "tags": ["organization"],
+        "summary": "Get Organization details",
+        "description": "Get organization details by organization id",
+        "operationId": "getOrganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "organization id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organization"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "get": {
+        "tags": ["organization"],
+        "summary": "Get organizations list",
+        "description": "Get a list of organizations",
+        "operationId": "getOrganizationList",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organization"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["organization"],
+        "summary": "update organization profile",
+        "description": "User update the organization profile details",
+        "operationId": "updateOrganizationProfile",
+        "requestBody": {
+          "description": "organization update the profile details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationProfile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organization"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/applications": {
+      "get": {
+        "tags": ["applications"],
+        "summary": "Get list of applications",
+        "description": "volunteer user get all the applications they have applied",
+        "operationId": "getApplicationsList",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Application"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      }
+    },
+    "/applications/{appId}": {
+      "get": {
+        "tags": ["applications"],
+        "summary": "view application by id",
+        "description": "view an application",
+        "operationId": "viewApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "application id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Application"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["applications"],
+        "summary": "update application by id",
+        "description": "organization update the application status",
+        "operationId": "updateApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "application id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update application status",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Application"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body"
+          }
+        }
+      }
+    },
+    "/contributions": {
+      "get": {
+        "tags": ["contributions"],
+        "summary": "get contributions list",
+        "description": "get contributions list for a logged in user",
+        "operationId": "getContributions",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contribution"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      }
+    },
+    "/contributions/{conId}": {
+      "get": {
+        "tags": ["contributions"],
+        "summary": "view contribution by id",
+        "description": "view contribution details by id",
+        "operationId": "viewContribution",
+        "parameters": [
+          {
+            "name": "conId",
+            "in": "path",
+            "description": "contribution id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contribution"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no records found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["contributions"],
+        "summary": "update contribution by id",
+        "description": "organization update the contribution details",
+        "operationId": "updateContribution",
+        "parameters": [
+          {
+            "name": "conId",
+            "in": "path",
+            "description": "contributions id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update contribution details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contribution"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contribution"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body"
           }
         }
       }
@@ -93,74 +1117,359 @@
   },
   "components": {
     "schemas": {
-      "LoginRequest": {
+      "OrganizationProfile": {
         "type": "object",
         "properties": {
-          "email": {
-            "type": "string"
+          "name": {
+            "type": "string",
+            "example": "ABC Company Pvt Ltd"
           },
-          "password": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
-          }
-        }
-      },
-      "volunteerRegistrationRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
+          "logo": {
+            "type": "string",
+            "example": "company logo URL"
           },
           "address": {
-            "type": "string"
+            "type": "string",
+            "example": "27/3, 5th lane, Colombo 05"
           },
           "country": {
-            "type": "string"
+            "type": "string",
+            "example": "Sri Lanka"
           },
-          "phone": {
-            "type": "string"
+          "description": {
+            "type": "string",
+            "example": "organization details"
           },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": ["email", "password", "address", "country", "phone", "name"]
-      },
-      "RegistrationResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string"
+          "website": {
+            "type": "string",
+            "example": "https://web.io"
+          },
+          "twitter": {
+            "type": "string",
+            "example": "https://web.io"
+          },
+          "facebook": {
+            "type": "string",
+            "example": "https://web.io"
+          },
+          "instagram": {
+            "type": "string",
+            "example": "https://web.io"
           }
         }
       },
-      "ConfirmRegistrationRequest": {
+      "VolunteerProfile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "jane doe"
+          },
+          "profilePic": {
+            "type": "string",
+            "example": "profile pic URL"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male",
+            "enum": ["male", "female", "other"]
+          },
+          "address": {
+            "type": "string",
+            "example": "27/3, 5th lane, Colombo 05"
+          },
+          "country": {
+            "type": "string",
+            "example": "Sri Lanka"
+          },
+          "bio": {
+            "type": "string",
+            "example": "volunteer profile bio"
+          },
+          "isPublic": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Volunteer": {
+        "required": ["name", "email", "password", "address", "country"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "jane doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "janedoe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "qwdrth289P*"
+          },
+          "address": {
+            "type": "string",
+            "example": "27/3, 5th lane, Colombo 05"
+          },
+          "country": {
+            "type": "string",
+            "example": "Sri Lanka"
+          }
+        }
+      },
+      "Organization": {
+        "required": [
+          "organizationName",
+          "email",
+          "password",
+          "address",
+          "country",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationName": {
+            "type": "string",
+            "example": "jane doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "janedoe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "qwdrth289P*"
+          },
+          "address": {
+            "type": "string",
+            "example": "27/3, 5th lane, Colombo 05"
+          },
+          "country": {
+            "type": "string",
+            "example": "Sri Lanka"
+          },
+          "phone": {
+            "type": "string",
+            "example": 947614589657
+          }
+        }
+      },
+      "Login": {
+        "required": ["email", "password"],
         "type": "object",
         "properties": {
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "janedoe@gmail.com"
           },
-          "code": {
-            "type": "string"
+          "password": {
+            "type": "string",
+            "example": "qwdrth289P*"
           }
-        },
-        "required": ["email", "code"]
+        }
       },
-      "ConfirmRegistrationResponse": {
+      "OTP": {
+        "required": ["email", "code"],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": 12345
+          },
+          "email": {
+            "type": "string",
+            "example": "janedoe@gmail.com"
+          }
+        }
+      },
+      "OTPResend": {
+        "required": ["email"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "janedoe@gmail.com"
+          }
+        }
+      },
+      "Status": {
+        "required": ["status"],
         "type": "object",
         "properties": {
           "status": {
+            "type": "string",
+            "example": "closed",
+            "enum": ["closed", "published"]
+          }
+        }
+      },
+      "ApplicationStatus": {
+        "required": ["status"],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "approved",
+            "enum": ["approved", "rejected"]
+          },
+          "reason": {
+            "type": "string",
+            "example": "reason if the application is rejected"
+          }
+        }
+      },
+      "Contribution": {
+        "type": "object",
+        "properties": {
+          "feedback": {
+            "type": "string",
+            "example": "feedback for the contribution user has made"
+          },
+          "rating": {
+            "type": "number",
+            "example": 5
+          },
+          "hourseSpent": {
+            "type": "number",
+            "example": 25
+          },
+          "recommendedBy": {
+            "type": "string",
+            "example": "jane doe"
+          },
+          "recommendedPersonDesignation": {
+            "type": "string",
+            "example": "Manager"
+          }
+        }
+      },
+      "Application": {
+        "required": ["resumeUrl", "purposeLetterUrl"],
+        "type": "object",
+        "properties": {
+          "resumeUrl": {
+            "type": "string",
+            "example": "s3 bucket pre signed URL"
+          },
+          "purposeLetterUrl": {
+            "type": "string",
+            "example": "s3 bucket pre signed URL"
+          }
+        }
+      },
+      "Opportunity": {
+        "required": [
+          "title",
+          "description",
+          "venue",
+          "startingDate",
+          "startingTime",
+          "durationInDays",
+          "hoursPerDay",
+          "volunteerCapacity",
+          "deadline",
+          "category",
+          "contactPersonName",
+          "contactPersonEmail",
+          "contactPersonDesignation"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "We Plant Campaign"
+          },
+          "description": {
+            "type": "string",
+            "example": "We Plant Campaign is a program to grow and look after plants"
+          },
+          "venue": {
+            "type": "string",
+            "example": "Colombo"
+          },
+          "startingDate": {
+            "type": "string",
+            "example": "12-08-2024"
+          },
+          "durationInDays": {
+            "type": "number",
+            "example": 5
+          },
+          "hoursPerDay": {
+            "type": "number",
+            "example": 5
+          },
+          "volunteerCapacity": {
+            "type": "number",
+            "example": 205
+          },
+          "deadline": {
+            "type": "string",
+            "example": "07-07-2024"
+          },
+          "category": {
+            "type": "string",
+            "example": "environment"
+          },
+          "contactPersonName": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "contactPersonEmail": {
+            "type": "string",
+            "example": "jane@gmail.com"
+          },
+          "contactPersonDesignation": {
+            "type": "string",
+            "example": "Manager"
+          },
+          "certificateProvided": {
+            "type": "boolean",
+            "example": true
+          },
+          "otherDetails": {
+            "type": "string",
+            "example": "Any other details organization would like to share goes here"
+          },
+          "status": {
+            "type": "string",
+            "example": "published",
+            "enum": ["closed", "published", "draft"]
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
             "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Pet": {
+        "description": "Pet object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Volunteer"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Volunteer"
+            }
           }
         }
       }
