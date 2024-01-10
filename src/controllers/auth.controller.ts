@@ -3,6 +3,7 @@ import { AuthService } from "../services/auth.service";
 import { AuthControllerInterface } from "../interfaces/auth.interface";
 import Organization from "../models/organization.model";
 import Volunteer from "../models/volunteer.model";
+import { STATUS_MESSAGE, SUCCESS_MESSAGES } from "../enum";
 
 const authentication = new AuthService();
 
@@ -17,7 +18,8 @@ export class AuthController implements AuthControllerInterface {
       );
 
       res.status(200).json({
-        status: "success",
+        status: STATUS_MESSAGE.SUCCESS,
+        message: SUCCESS_MESSAGES.LOGIN_SUCCESS,
         data: {
           accessToken,
           refreshToken,
@@ -52,7 +54,8 @@ export class AuthController implements AuthControllerInterface {
       await volunteer.save();
 
       res.status(200).json({
-        status: "success",
+        status: STATUS_MESSAGE.SUCCESS,
+        message: SUCCESS_MESSAGES.SENT_OTP,
         data: {},
       });
     } catch (err) {
@@ -85,7 +88,8 @@ export class AuthController implements AuthControllerInterface {
       await organization.save();
 
       res.status(200).json({
-        status: "success",
+        status: STATUS_MESSAGE.SUCCESS,
+        message: SUCCESS_MESSAGES.SENT_OTP,
         data: {},
       });
     } catch (err) {
@@ -99,7 +103,8 @@ export class AuthController implements AuthControllerInterface {
       await authentication.confirmSignUp(email.trim(), code);
 
       res.status(200).json({
-        status: "success",
+        status: STATUS_MESSAGE.SUCCESS,
+        message: SUCCESS_MESSAGES.OTP_VERIFIED,
         data: {},
       });
     } catch (err) {
@@ -117,7 +122,8 @@ export class AuthController implements AuthControllerInterface {
       await authentication.resendConfirmationCode(email.trim());
 
       res.status(200).json({
-        status: "success",
+        status: STATUS_MESSAGE.SUCCESS,
+        message: SUCCESS_MESSAGES.RESEND_OTP,
         data: {},
       });
     } catch (err) {

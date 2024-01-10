@@ -40,7 +40,7 @@ const opportunitySchema = new mongoose.Schema({
   volunteer_capacity: {
     type: Number,
     required: true,
-    default: 0,
+    default: 10,
   },
 
   deadline: {

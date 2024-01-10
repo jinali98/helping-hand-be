@@ -45,6 +45,7 @@ const volunteerSchema = new mongoose.Schema({
   is_public: {
     type: Boolean,
     required: true,
+    default: true,
   },
 });
 
