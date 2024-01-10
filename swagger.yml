@@ -1242,11 +1242,3 @@ components:
         application/xml:
           schema:
             $ref: "#/components/schemas/Volunteer"
-    UserArray:
-      description: List of user object
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: "#/components/schemas/User"
