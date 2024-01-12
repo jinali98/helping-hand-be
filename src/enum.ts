@@ -1,3 +1,9 @@
+export enum NODE_ENV {
+  PROD = "prod",
+  DEV = "dev",
+  TEST = "test",
+}
+
 export enum STATUS {
   PENDING = "pending",
   ACCEPTED = "accepted",
@@ -13,7 +19,7 @@ export enum STATUS_MESSAGE {
   FAIL = "Fail",
   WARNING = "Warning",
   INFO = "Info",
-  
+  UNAUTHORIZED = "Unauthorized",
 }
 
 export enum ERROR_MESSAGES {
@@ -22,7 +28,7 @@ export enum ERROR_MESSAGES {
   SERVER_ERROR = "Internal Server Error",
   NO_RESULTS_FOUND = "no results found",
   VALIDATION_ERROR = "invalid request body",
-  UNAUTHORIZED = "unauthorized",
+  UNAUTHORIZED = "unauthorized access",
   CANT_CREATE_RECORD = "cannot create record",
   INVALID_CHALLENGE = "invalid challenge",
 }
@@ -57,4 +63,10 @@ export enum SUCCESS_CODES {
   CREATED = 201,
   ACCEPTED = 202,
   NO_CONTENT = 204,
+}
+
+export enum USER_TYPE {
+  VOLUNTEER = "volunteer",
+  ORGANIZATION = "organization",
+  ADMIN = "admin",
 }

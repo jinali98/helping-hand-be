@@ -2,6 +2,8 @@ import { Request, Response, NextFunction, Router } from "express";
 
 import { AuthController } from "../controllers/auth.controller";
 import { AuthValidator } from "../middleware/auth-validator.middleware";
+import { verifyUser } from "../middleware/jwt-verifier.middleware";
+import { authroizer } from "../middleware/authorizer.middleware";
 
 const authRouter = Router();
 const authController = new AuthController();
@@ -32,14 +34,14 @@ authRouter.post(
 );
 
 authRouter.post(
-  "/confirmRegistration",
+  "/confirm-registration",
   authValidator.confirmSignUp,
   async (req: Request, res: Response, next: NextFunction) => {
     authController.confirmSignup(req, res, next);
   }
 );
 authRouter.post(
-  "/resendConfirmationCode",
+  "/resend-confirmation-code",
   authValidator.resendConfirmationCode,
   async (req: Request, res: Response, next: NextFunction) => {
     authController.resendConfirmationCode(req, res, next);
@@ -47,8 +49,17 @@ authRouter.post(
 );
 
 authRouter.post(
-  "/refreshToken",
-  async (req: Request, res: Response, next: NextFunction) => {}
+  "/refresh-token",
+  verifyUser,
+  authroizer("organization"),
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    res.status(200).json({
+      status: "success",
+      message: "Token Refreshed",
+      data: req.user,
+    });
+  }
 );
 
 export default authRouter;

@@ -1,3 +1,4 @@
+import { STATUS_MESSAGE } from "../enum";
 import { Request, Response, NextFunction } from "express";
 
 export class CustomError extends Error {
@@ -14,7 +15,7 @@ export const globalErrorHandler = (
 ) => {
   console.log(err);
   err.statusCode = err.code || 500;
-  err.status = err.status || "error";
+  err.status = err.status || STATUS_MESSAGE.ERROR;
 
   res.status(err.statusCode).json({
     status: err.status,

@@ -58,11 +58,11 @@ export class CognitoService implements CognitoServiceInterface {
     try {
       const initAuth = new InitiateAuthCommand(input);
       const response = await this.cognitoClient.send(initAuth);
-
       return {
         accessToken: response.AuthenticationResult.AccessToken,
         refreshToken: response.AuthenticationResult.RefreshToken,
         idToken: response.AuthenticationResult.IdToken,
+        expiresIn: response.AuthenticationResult.ExpiresIn,
       };
     } catch (err) {
       throw new CustomError(

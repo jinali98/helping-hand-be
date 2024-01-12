@@ -88,7 +88,7 @@ paths:
                 $ref: "#/components/schemas/Login"
         "400":
           description: Incorrect username or password
-  /auth/confirmRegistration:
+  /auth/confirm-registration:
     post:
       tags:
         - auth
@@ -111,7 +111,7 @@ paths:
                 $ref: "#/components/schemas/ApiResponse"
         "400":
           description: cannot confirm user account
-  /auth/resendConfirmationCode:
+  /auth/resend-confirmation-code:
     post:
       tags:
         - auth

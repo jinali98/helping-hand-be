@@ -1,3 +1,13 @@
+declare module "express" {
+  interface Request {
+    user?: {
+      email: string;
+      userType: string;
+      id: string;
+    };
+  }
+}
+
 export type confirmSignUpCognitoInput = {
   ClientId: string;
   ConfirmationCode: string;
@@ -16,6 +26,10 @@ export type signUpCognitoInput = {
   Username: string;
   Password: string;
   UserAttributes: [
+    {
+      Name: string;
+      Value: string;
+    },
     {
       Name: string;
       Value: string;

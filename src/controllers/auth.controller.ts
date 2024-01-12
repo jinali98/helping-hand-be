@@ -3,7 +3,7 @@ import { AuthService } from "../services/auth.service";
 import { AuthControllerInterface } from "../interfaces/auth.interface";
 import Organization from "../models/organization.model";
 import Volunteer from "../models/volunteer.model";
-import { STATUS_MESSAGE, SUCCESS_MESSAGES } from "../enum";
+import { NODE_ENV, STATUS_MESSAGE, SUCCESS_MESSAGES, USER_TYPE } from "../enum";
 
 const authentication = new AuthService();
 
@@ -12,16 +12,31 @@ export class AuthController implements AuthControllerInterface {
     try {
       const { email, password } = req.body;
 
-      const { accessToken, refreshToken, idToken } = await authentication.login(
+      const { refreshToken, idToken, expiresIn } = await authentication.login(
         email.trim(),
         password.trim()
       );
+
+      const cookieOptions = {
+        httpOnly: true,
+        secure: false,
+      };
+      /**
+       * Set cookie for idToken and refreshToken
+       */
+
+      if (process.env.NODE_ENV === NODE_ENV.PROD) cookieOptions.secure = true;
+
+      res.cookie("idToken", idToken, {
+        ...cookieOptions,
+        expires: new Date(Date.now() + expiresIn * 1000),
+      });
+      res.cookie("refreshToken", refreshToken, cookieOptions);
 
       res.status(200).json({
         status: STATUS_MESSAGE.SUCCESS,
         message: SUCCESS_MESSAGES.LOGIN_SUCCESS,
         data: {
-          accessToken,
           refreshToken,
           idToken,
         },
@@ -40,7 +55,8 @@ export class AuthController implements AuthControllerInterface {
 
       const { userid } = await authentication.userRegistration(
         email.trim(),
-        password.trim()
+        password.trim(),
+        USER_TYPE.VOLUNTEER
       );
 
       const volunteer = new Volunteer({
@@ -73,7 +89,8 @@ export class AuthController implements AuthControllerInterface {
 
       const { userid } = await authentication.userRegistration(
         email.trim(),
-        password.trim()
+        password.trim(),
+        USER_TYPE.ORGANIZATION
       );
 
       const organization = new Organization({

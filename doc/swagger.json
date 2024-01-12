@@ -139,7 +139,7 @@
         }
       }
     },
-    "/auth/confirmRegistration": {
+    "/auth/confirm-registration": {
       "post": {
         "tags": ["auth"],
         "summary": "User verify the email id by providing the OTP",
@@ -173,7 +173,7 @@
         }
       }
     },
-    "/auth/resendConfirmationCode": {
+    "/auth/resend-confirmation-code": {
       "post": {
         "tags": ["auth"],
         "summary": "User request to re send the OTP",

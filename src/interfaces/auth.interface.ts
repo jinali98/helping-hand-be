@@ -3,7 +3,8 @@ import { Request, Response, NextFunction } from "express";
 export interface AuthServiceInterface {
   userRegistration(
     email: string,
-    password: string
+    password: string,
+    userType: string
   ): Promise<{ userid: string } | Error>;
   confirmSignUp(email: string, code: string): Promise<any | Error>;
   login(
