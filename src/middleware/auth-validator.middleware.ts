@@ -1,6 +1,7 @@
 import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../services/exception.service";
+import { ERROR_CODES, ERROR_MESSAGES } from "../enum";
 
 export class AuthValidator {
   volunterRegistration(req: Request, res: Response, next: NextFunction) {
@@ -9,13 +10,18 @@ export class AuthValidator {
       password: Joi.string().required(),
       address: Joi.string().required(),
       country: Joi.string().required(),
-      phone: Joi.string().required(),
       name: Joi.string().required(),
     });
 
     const { error } = schema.validate(req.body);
     if (error) {
-      return next(new CustomError(400, error.details[0].message));
+      return next(
+        new CustomError(
+          ERROR_CODES.BAD_REQUEST,
+          error.details[0].message,
+          ERROR_MESSAGES.VALIDATION_ERROR
+        )
+      );
     }
     next();
   }
@@ -31,7 +37,13 @@ export class AuthValidator {
 
     const { error } = schema.validate(req.body);
     if (error) {
-      return next(new CustomError(400, error.details[0].message));
+      return next(
+        new CustomError(
+          ERROR_CODES.BAD_REQUEST,
+          error.details[0].message,
+          ERROR_MESSAGES.VALIDATION_ERROR
+        )
+      );
     }
     next();
   }
@@ -43,7 +55,13 @@ export class AuthValidator {
 
     const { error } = schema.validate(req.body);
     if (error) {
-      return next(new CustomError(400, error.details[0].message));
+      return next(
+        new CustomError(
+          ERROR_CODES.BAD_REQUEST,
+          error.details[0].message,
+          ERROR_MESSAGES.VALIDATION_ERROR
+        )
+      );
     }
     next();
   }
@@ -55,7 +73,13 @@ export class AuthValidator {
 
     const { error } = schema.validate(req.body);
     if (error) {
-      return next(new CustomError(400, error.details[0].message));
+      return next(
+        new CustomError(
+          ERROR_CODES.BAD_REQUEST,
+          error.details[0].message,
+          ERROR_MESSAGES.VALIDATION_ERROR
+        )
+      );
     }
     next();
   }
@@ -66,7 +90,13 @@ export class AuthValidator {
 
     const { error } = schema.validate(req.body);
     if (error) {
-      return next(new CustomError(400, error.details[0].message));
+      return next(
+        new CustomError(
+          ERROR_CODES.BAD_REQUEST,
+          error.details[0].message,
+          ERROR_MESSAGES.VALIDATION_ERROR
+        )
+      );
     }
     next();
   }

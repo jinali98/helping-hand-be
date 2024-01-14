@@ -1,4 +1,4 @@
-require("dotenv/config");
+require("dotenv").config({ path: "./config/.env.dev" });
 import express from "express";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
@@ -12,6 +12,7 @@ import { CustomError, globalErrorHandler } from "./services/exception.service";
 
 import { limiter } from "./configs/rateLimiter.config";
 import { config } from "./configs/cors.config";
+import { ERROR_CODES, STATUS_MESSAGE } from "./enum";
 
 const port = process.env.PORT || 3000;
 
@@ -30,7 +31,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRouter);
 
 app.all("*", (req, res, next) => {
-  next(new CustomError(404, `Can't find ${req.originalUrl} on this server!`));
+  next(
+    new CustomError(
+      ERROR_CODES.NOT_FOUND,
+      `Can't find ${req.originalUrl} on this server!`,
+      STATUS_MESSAGE.FAIL
+    )
+  );
 });
 
 app.use(globalErrorHandler);
@@ -49,3 +56,5 @@ mongoose
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
+
+export default app;

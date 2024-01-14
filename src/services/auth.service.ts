@@ -14,7 +14,7 @@ export class AuthService implements AuthServiceInterface {
 
   cognito = new CognitoService();
 
-  async userRegistration(email: string, password: string) {
+  async userRegistration(email: string, password: string, userType: string) {
     try {
       const input: signUpCognitoInput = {
         ClientId: this.clientId,
@@ -25,6 +25,11 @@ export class AuthService implements AuthServiceInterface {
           {
             Name: "email",
             Value: email,
+          },
+
+          {
+            Name: "custom:userType",
+            Value: userType,
           },
         ],
       };
