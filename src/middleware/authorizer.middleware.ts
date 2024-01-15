@@ -8,7 +8,7 @@ import { ERROR_CODES, ERROR_MESSAGES, STATUS_MESSAGE } from "../enum";
  *
  */
 
-export const authroizer = (userType: string) => {
+export const authroizer = (userTypes: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       if (!req.user) {
@@ -18,7 +18,8 @@ export const authroizer = (userType: string) => {
           STATUS_MESSAGE.UNAUTHORIZED
         );
       }
-      if (req.user.userType !== userType) {
+
+      if (!userTypes.includes(req.user.userType)) {
         throw new CustomError(
           ERROR_CODES.NOT_AUTHORIZED,
           ERROR_MESSAGES.UNAUTHORIZED,
