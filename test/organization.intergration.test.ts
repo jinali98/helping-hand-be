@@ -3,6 +3,20 @@ import { STATUS_MESSAGE, SUCCESS_MESSAGES } from "../src/enum";
 import app from "../src/app";
 import mongoose from "mongoose";
 import request from "supertest";
+import { AuthService } from "../src/services/auth.service";
+
+const authService = new AuthService();
+
+let token: string;
+
+beforeAll(async () => {
+  const { idToken } = await authService.login(
+    process.env.EMAIL_ORG,
+    process.env.PASSWORD_ORG
+  );
+
+  token = idToken;
+});
 
 beforeEach(async () => {
   await mongoose.connect(process.env.MONGO_URL);
@@ -62,7 +76,7 @@ describe("PATCH /organizations", () => {
   it("should update the organization and return success response", async () => {
     const { body, statusCode } = await request(app)
       .patch("/api/v1/organizations")
-      .set("Authorization", "Bearer ")
+      .set("Authorization", `Bearer ${token}`)
       .send({
         address: "test address",
         country: "test country",
