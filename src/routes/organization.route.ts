@@ -13,18 +13,20 @@ organizationRouter.get(
   }
 );
 
+organizationRouter.patch(
+  "/",
+  verifyUser,
+  authroizer([USER_TYPE.ORGANIZATION]),
+  async (req: Request, res: Response, next: NextFunction) => {
+    organizationController.updateOrganizationController(req, res, next);
+  }
+);
+
 organizationRouter.get(
   "/:orgId",
   async (req: Request, res: Response, next: NextFunction) => {
     organizationController.viewOrganizationController(req, res, next);
   }
-);
-
-organizationRouter.patch(
-  "/",
-  verifyUser,
-  authroizer([USER_TYPE.ORGANIZATION]),
-  async (req: Request, res: Response, next: NextFunction) => {}
 );
 
 export default organizationRouter;

@@ -84,5 +84,33 @@ export class OrganizationController {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {}
+  ) {
+    try {
+      const orgid = req.user.id;
+      await Organization.updateOne(
+        {
+          org_id: orgid,
+        },
+        {
+          address: req.body?.address,
+          country: req.body?.country,
+          name: req.body?.name,
+          phone: req.body?.phone,
+          website: req.body?.website,
+          description: req.body?.description,
+          category: req.body?.category,
+          logo: req.body?.logo,
+          facebook: req.body?.facebook,
+          instagram: req.body?.instagram,
+          twitter: req.body?.twitter,
+        }
+      );
+      res.status(200).json({
+        status: STATUS_MESSAGE.SUCCESS,
+        message: SUCCESS_MESSAGES.RECORD_UPDATED,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
 }
