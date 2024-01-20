@@ -1,9 +1,9 @@
 require("dotenv").config({ path: "./config/.env.test" });
-import { STATUS_MESSAGE, SUCCESS_MESSAGES } from "../src/enum";
-import app from "../src/app";
+import { STATUS_MESSAGE, SUCCESS_MESSAGES } from "../../src/enum";
+import app from "../../src/app";
 import mongoose from "mongoose";
 import request from "supertest";
-import { AuthService } from "../src/services/auth.service";
+import { AuthService } from "../../src/services/auth.service";
 
 const authService = new AuthService();
 
@@ -37,7 +37,7 @@ describe("GET /organizations", () => {
       message: SUCCESS_MESSAGES.RECORDS_FETCHED,
       data: expect.arrayContaining([
         expect.objectContaining({
-          org_id: expect.any(String),
+          orgId: expect.any(String),
           name: expect.any(String),
           country: expect.any(String),
         }),
@@ -78,17 +78,17 @@ describe("PATCH /organizations", () => {
       .patch("/api/v1/organizations")
       .set("Authorization", `Bearer ${token}`)
       .send({
-        address: "test address",
-        country: "test country",
-        name: "test name",
-        phone: "test mobile number",
-        website: "test website",
-        description: "test desc",
-        category: "test cat",
-        logo: "test url",
-        facebook: "test link",
-        instagram: "test link",
-        twitter: "test link",
+        address: "123 Test Street, Test City",
+        country: "Testland",
+        name: "TestCo Enterprises",
+        phone: "+1 (555) 123-4567",
+        website: "www.testco.com",
+        description: "TestCo is a leading provider of innovative solutions.",
+        category: "Technology",
+        logo: "https://example.com/testco-logo.png",
+        facebook: "https://www.facebook.com/testco",
+        instagram: "https://www.instagram.com/testco",
+        twitter: "https://twitter.com/testco",
       });
 
     const response = {

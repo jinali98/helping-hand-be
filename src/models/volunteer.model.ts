@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const volunteerSchema = new mongoose.Schema({
-  vol_id: {
+  volId: {
     type: String,
     required: true,
   },
@@ -31,7 +31,7 @@ const volunteerSchema = new mongoose.Schema({
     required: false,
   },
 
-  profile_pic: {
+  profilePic: {
     type: String,
     required: false,
   },
@@ -42,7 +42,7 @@ const volunteerSchema = new mongoose.Schema({
     default: 0,
   },
 
-  is_public: {
+  isPublic: {
     type: Boolean,
     required: true,
     default: true,

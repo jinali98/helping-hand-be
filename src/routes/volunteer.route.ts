@@ -3,8 +3,12 @@ import { verifyUser } from "../middleware/jwt-verifier.middleware";
 import { authroizer } from "../middleware/authorizer.middleware";
 import { USER_TYPE } from "../enum";
 import { VolunteerController } from "../controllers/volunteer.controller";
+
+import { VolunteerValidator } from "../middleware/volunteer-validator.middleware";
+
 const volunteerRouter = Router();
 const volunteerController = new VolunteerController();
+const volunteerValidator = new VolunteerValidator();
 
 volunteerRouter.get(
   "/",
@@ -17,6 +21,7 @@ volunteerRouter.patch(
   "/",
   verifyUser,
   authroizer([USER_TYPE.VOLUNTEER]),
+  volunteerValidator.updateVolunteerProfile,
   async (req: Request, res: Response, next: NextFunction) => {
     volunteerController.updateVolunteerController(req, res, next);
   }

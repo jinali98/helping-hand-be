@@ -2,11 +2,11 @@ import { STATUS } from "enum";
 import mongoose from "mongoose";
 
 const applicationSchema = new mongoose.Schema({
-  vol_id: {
+  volId: {
     type: String,
     required: true,
   },
-  opportunity_id: {
+  opportunityId: {
     type: String,
     required: true,
   },
@@ -17,21 +17,21 @@ const applicationSchema = new mongoose.Schema({
     default: STATUS.PENDING,
   },
 
-  resume_url: {
+  resumeUrl: {
     type: String,
     required: true,
   },
 
-  purpose_letter_url: {
+  purposeLetterUrl: {
     type: String,
     required: true,
   },
 
-  created_at: {
+  createdAt: {
     type: Date,
     required: true,
   },
-  updated_at: {
+  updatedAt: {
     type: Date,
     required: true,
   },

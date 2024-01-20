@@ -66,10 +66,10 @@ export class OrganizationController {
       }
 
       const organization = await Organization.findOne(
-        { org_id: orgid },
+        { orgId: orgid },
         {
           _id: 0,
-          org_id: 0,
+          orgId: 0,
           __v: 0,
         }
       );
@@ -103,7 +103,7 @@ export class OrganizationController {
       const orgid = req.user.id;
       await Organization.updateOne(
         {
-          org_id: orgid,
+          orgId: orgid,
         },
         {
           address: req.body?.address,

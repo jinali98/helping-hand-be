@@ -53,10 +53,10 @@ export class VolunteerController {
       }
 
       const volunteer = await Volunteer.findOne(
-        { vol_id: volid },
+        { volId: volid },
         {
           _id: 0,
-          vol_id: 0,
+          volId: 0,
           __v: 0,
         }
       );
@@ -88,12 +88,16 @@ export class VolunteerController {
       const volid = req.user.id;
       await Volunteer.updateOne(
         {
-          vol_id: volid,
+          volId: volid,
         },
         {
           address: req.body?.address,
           country: req.body?.country,
           name: req.body?.name,
+          bio: req.body?.bio,
+          gender: req.body?.gender,
+          profilePic: req.body?.profilePic,
+          isPublic: req.body?.isPublic,
         }
       );
       res.status(200).json({
