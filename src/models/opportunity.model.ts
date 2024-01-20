@@ -2,7 +2,7 @@ import { STATUS } from "enum";
 import mongoose from "mongoose";
 
 const opportunitySchema = new mongoose.Schema({
-  org_id: {
+  orgId: {
     type: String,
     required: true,
   },
@@ -19,25 +19,25 @@ const opportunitySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  starting_date: {
+  startingDate: {
     type: Date,
     required: true,
   },
-  starting_time: {
+  startingTime: {
     type: String,
     required: true,
   },
-  duration_in_days: {
+  durationInDays: {
     type: Number,
     required: true,
     default: 1,
   },
-  hours_per_day: {
+  hoursPerDay: {
     type: Number,
     required: true,
     default: 1,
   },
-  volunteer_capacity: {
+  volunteerCapacity: {
     type: Number,
     required: true,
     default: 10,
@@ -48,7 +48,7 @@ const opportunitySchema = new mongoose.Schema({
     required: true,
   },
 
-  other_details: {
+  otherDetails: {
     type: String,
     required: false,
   },
@@ -57,17 +57,17 @@ const opportunitySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  contact_person_name: {
+  contactPersonName: {
     type: String,
     required: true,
   },
 
-  contact_person_email: {
+  contactPersonEmail: {
     type: String,
     required: true,
   },
 
-  contact_person_designation: {
+  contactPersonDesignation: {
     type: String,
     required: true,
   },
@@ -79,18 +79,18 @@ const opportunitySchema = new mongoose.Schema({
     default: STATUS.DRAFT,
   },
 
-  certificate_provided: {
+  certificateProvided: {
     type: Boolean,
     required: true,
     default: false,
   },
 
-  created_at: {
+  createdAt: {
     type: Date,
     required: true,
   },
 
-  updated_at: {
+  updatedAt: {
     type: Date,
     required: true,
   },

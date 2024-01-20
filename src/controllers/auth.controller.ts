@@ -60,7 +60,7 @@ export class AuthController implements AuthControllerInterface {
       );
 
       const volunteer = new Volunteer({
-        vol_id: userid,
+        volId: userid,
         email: email.trim(),
         address,
         country,
@@ -94,7 +94,7 @@ export class AuthController implements AuthControllerInterface {
       );
 
       const organization = new Organization({
-        org_id: userid,
+        orgId: userid,
         email: email.trim(),
         address,
         country,

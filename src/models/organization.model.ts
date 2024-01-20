@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const organizationSchema = new mongoose.Schema({
-  org_id: {
+  orgId: {
     type: String,
     required: true,
   },
