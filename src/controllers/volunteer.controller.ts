@@ -5,76 +5,63 @@ import {
   STATUS_MESSAGE,
   SUCCESS_MESSAGES,
 } from "../enum";
-import Organization from "../models/organization.model";
+import Volunteer from "../models/volunteer.model";
 
-import { CachingService } from "../services/cache.service";
 import { CustomError } from "../services/exception.service";
 
-const cache = new CachingService();
-
-export class OrganizationController {
-  async getOrganizationListController(
+export class VolunteerController {
+  async getVolunteerListController(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const organizations = await Organization.find(
+      const volunteers = await Volunteer.find(
         {},
         {
           _id: 0,
           __v: 0,
           email: 0,
           address: 0,
-          phone: 0,
         }
       );
 
       res.status(200).json({
         status: STATUS_MESSAGE.SUCCESS,
         message: SUCCESS_MESSAGES.RECORDS_FETCHED,
-        data: organizations,
+        data: volunteers,
       });
     } catch (err) {
       return next(err);
     }
   }
 
-  async viewOrganizationController(
+  async viewVolunteerController(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const orgid = req.params?.orgId;
+      const volid = req.params?.volId;
 
-      if (!orgid) {
+      if (!volid) {
         throw new CustomError(
           ERROR_CODES.BAD_REQUEST,
           ERROR_MESSAGES.INVALID_ENDPOINT,
           STATUS_MESSAGE.FAIL
         );
       }
-      const results = await cache.getCachedData(req.originalUrl);
 
-      if (results) {
-        return res.status(200).json({
-          status: STATUS_MESSAGE.SUCCESS,
-          message: SUCCESS_MESSAGES.RECORD_FETCHED,
-          data: results,
-        });
-      }
-
-      const organization = await Organization.findOne(
-        { orgId: orgid },
+      const volunteer = await Volunteer.findOne(
+        { volId: volid },
         {
           _id: 0,
-          orgId: 0,
+          volId: 0,
           __v: 0,
         }
       );
 
-      if (!organization) {
+      if (!volunteer) {
         throw new CustomError(
           ERROR_CODES.NOT_FOUND,
           ERROR_MESSAGES.NO_RESULTS_FOUND,
@@ -82,41 +69,35 @@ export class OrganizationController {
         );
       }
 
-      await cache.setCache(req.originalUrl, organization);
-
       res.status(200).json({
         status: STATUS_MESSAGE.SUCCESS,
         message: SUCCESS_MESSAGES.RECORD_FETCHED,
-        data: organization,
+        data: volunteer,
       });
     } catch (err) {
       return next(err);
     }
   }
 
-  async updateOrganizationController(
+  async updateVolunteerController(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const orgid = req.user.id;
-      await Organization.updateOne(
+      const volid = req.user.id;
+      await Volunteer.updateOne(
         {
-          orgId: orgid,
+          volId: volid,
         },
         {
           address: req.body?.address,
           country: req.body?.country,
           name: req.body?.name,
-          phone: req.body?.phone,
-          website: req.body?.website,
-          description: req.body?.description,
-          category: req.body?.category,
-          logo: req.body?.logo,
-          facebook: req.body?.facebook,
-          instagram: req.body?.instagram,
-          twitter: req.body?.twitter,
+          bio: req.body?.bio,
+          gender: req.body?.gender,
+          profilePic: req.body?.profilePic,
+          isPublic: req.body?.isPublic,
         }
       );
       res.status(200).json({

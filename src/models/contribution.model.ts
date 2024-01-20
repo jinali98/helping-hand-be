@@ -2,11 +2,11 @@ import { STATUS } from "enum";
 import mongoose from "mongoose";
 
 const contributionSchema = new mongoose.Schema({
-  vol_id: {
+  volId: {
     type: String,
     required: true,
   },
-  opportunity_id: {
+  opportunityId: {
     type: String,
     required: true,
   },
@@ -27,27 +27,27 @@ const contributionSchema = new mongoose.Schema({
     required: false,
   },
 
-  hours_spent: {
+  hoursSpent: {
     type: Number,
     required: false,
   },
 
-  recommended_by: {
+  recommendedBy: {
     type: String,
     required: false,
   },
 
-  recommended_person_designation: {
+  recommendedPersonDesignation: {
     type: String,
     required: false,
   },
 
-  created_at: {
+  createdAt: {
     type: Date,
     required: true,
   },
 
-  updated_at: {
+  updatedAt: {
     type: Date,
     required: true,
   },

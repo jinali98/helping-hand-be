@@ -29,6 +29,6 @@ Access the documentation at http://localhost:3000/api-docs after starting the ap
 
 1. Configure environment variables:
 
-Utilize the provided .env.example as a template for creating your own .env file. Customize the values in the file according to your specific configurations, replacing the placeholders.
+Utilize the provided .env.example as a template for creating your own .env.dev file. Customize the values in the file according to your specific configurations, replacing the placeholders.
 
 Note: Ensure to remove the .example extension from the file name.

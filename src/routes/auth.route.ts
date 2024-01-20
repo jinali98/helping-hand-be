@@ -50,16 +50,7 @@ authRouter.post(
 
 authRouter.post(
   "/refresh-token",
-  verifyUser,
-  authroizer(["organization"]),
-  async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-    res.status(200).json({
-      status: "success",
-      message: "Token Refreshed",
-      data: req.user,
-    });
-  }
+  async (req: Request, res: Response, next: NextFunction) => {}
 );
 
 export default authRouter;
