@@ -9,10 +9,11 @@ import Organization from "../models/organization.model";
 
 import { CachingService } from "../services/cache.service";
 import { CustomError } from "../services/exception.service";
+import { OrganizationControllerInterface } from "../interfaces/organizations.interface";
 
 const cache = new CachingService();
 
-export class OrganizationController {
+export class OrganizationController implements OrganizationControllerInterface {
   async getOrganizationListController(
     req: Request,
     res: Response,

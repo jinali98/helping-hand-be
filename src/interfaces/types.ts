@@ -45,3 +45,9 @@ export type initiateAuthCognitoInput = {
     PASSWORD: string;
   };
 };
+
+export type genericResponse = {
+  status: string;
+  message: string;
+  data?: any;
+};

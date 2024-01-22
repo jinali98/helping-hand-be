@@ -1,36 +1,45 @@
 import { Request, Response, NextFunction, Router } from "express";
-
+import { verifyUser } from "../middleware/jwt-verifier.middleware";
+import { authroizer } from "../middleware/authorizer.middleware";
+import { USER_TYPE } from "../enum";
 const opportunityRouter = Router();
 
 opportunityRouter.get(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
-    // get all events for an organization
+    // get list of opportunities
   }
 );
+
 opportunityRouter.post(
   "/",
+  verifyUser,
+  authroizer([USER_TYPE.ORGANIZATION]),
   async (req: Request, res: Response, next: NextFunction) => {
-    // create an event for an organization
+    // organization creates an opportunity
   }
 );
 
 opportunityRouter.get(
-  "/:id",
+  "/:oppId",
   async (req: Request, res: Response, next: NextFunction) => {
-    // get a specific event for an organization
+    // view a specific opportunity details
   }
 );
 
 opportunityRouter.patch(
-  "/:id",
+  "/:oppId",
+  verifyUser,
+  authroizer([USER_TYPE.ORGANIZATION]),
   async (req: Request, res: Response, next: NextFunction) => {
-    // update a specific event for an organization
+    // update a specific event
   }
 );
 
 opportunityRouter.delete(
-  "/:id",
+  "/:oppId",
+  verifyUser,
+  authroizer([USER_TYPE.ORGANIZATION]),
   async (req: Request, res: Response, next: NextFunction) => {
     // delete a specific event for an organization
   }

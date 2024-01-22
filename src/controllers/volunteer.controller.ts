@@ -8,8 +8,9 @@ import {
 import Volunteer from "../models/volunteer.model";
 
 import { CustomError } from "../services/exception.service";
+import { VolunteerControllerInterface } from "../interfaces/volunteer.interface";
 
-export class VolunteerController {
+export class VolunteerController implements VolunteerControllerInterface {
   async getVolunteerListController(
     req: Request,
     res: Response,
