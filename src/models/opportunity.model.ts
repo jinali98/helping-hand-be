@@ -1,4 +1,4 @@
-import { STATUS } from "enum";
+import { STATUS } from "../enum";
 import mongoose from "mongoose";
 
 const opportunitySchema = new mongoose.Schema({

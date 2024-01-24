@@ -9,6 +9,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import authRouter from "./routes/auth.route";
 import organizationRouter from "./routes/organization.route";
 import volunteerRouter from "./routes/volunteer.route";
+import opportunityRouter from "./routes/opportunity.route";
 
 import { CustomError, globalErrorHandler } from "./services/exception.service";
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/organizations", organizationRouter);
 app.use("/api/v1/volunteers", volunteerRouter);
+app.use("/api/v1/opportunities", opportunityRouter);
 
 app.all("*", (req, res, next) => {
   next(
