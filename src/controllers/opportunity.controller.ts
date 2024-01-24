@@ -44,8 +44,7 @@ export class OpportunityController {
   ) {
     try {
       const oppid = req.params?.oppId;
-      console.log(new ObjectId(oppid));
-
+      
       if (!oppid) {
         throw new CustomError(
           ERROR_CODES.BAD_REQUEST,
